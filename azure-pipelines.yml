@@ -19,7 +19,7 @@ jobs:
   - task: AzureCLI@2
     inputs:
       azureSubscription: 'c6853336-126c-44c6-b326-f66a9852fd25'
-'  # Replace with your Azure service connection name
+  # Replace with your Azure service connection name
       scriptType: 'bash'
       scriptLocation: 'install-nginx.sh'
       scriptPath: '$(Build.ArtifactStagingDirectory)/install-nginx.sh'
