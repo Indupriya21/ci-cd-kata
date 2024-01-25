@@ -1,18 +1,27 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'ubuntu-latest'
+pr:
+- '*'
 
 jobs:
 - job: InstallNginx
-  displayName: 'Install Nginx'
+  displayName: 'Install Nginx on VM'
+  pool:
+    vmImage: 'ubuntu-latest'
   steps:
-  - script: |
-      sudo apt-get update
-      sudo apt-get install -y nginx
-    displayName: 'Install Nginx'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)'
+      Contents: 'install-nginx.sh'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-  - script: sudo service nginx start
-    displayName: 'Start Nginx'
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'c6853336-126c-44c6-b326-f66a9852fd25'
+'  # Replace with your Azure service connection name
+      scriptType: 'bash'
+      scriptLocation: 'install-nginx.sh'
+      scriptPath: '$(Build.ArtifactStagingDirectory)/install-nginx.sh'
+
 
